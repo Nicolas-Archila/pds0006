@@ -9,16 +9,4 @@ describe("Example Test Suite", () => {
     const result = "Hello World";
     expect(result).toContain("World");
   });
-
-  it("should handle async operations", async () => {
-    const promise = Promise.resolve("success");
-    await expect(promise).resolves.toBe("success");
-  });
-});
-
-describe("API Health Check", () => {
-  it("should return 200 on health endpoint", async () => {
-    // Aquí puedes agregar tests reales de tu API
-    expect(true).toBe(true);
-  });
 });
