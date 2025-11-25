@@ -13,6 +13,11 @@ export interface LogEvent {
   message: string;
   timestamp?: Date;
   metadata?: Record<string, any>;
+  userId?: string;
+  endpoint?: string;
+  method?: string;
+  statusCode?: number;
+  duration?: number;
 }
 
 class Logger {
@@ -40,6 +45,12 @@ class Logger {
     this.sendToAxiom(event);
   }
 
+  warn(message: string, metadata?: Record<string, any>) {
+    const event: LogEvent = { level: 'warn', message, metadata };
+    console.warn(`[WARN] ${message}`, metadata);
+    this.sendToAxiom(event);
+  }
+
   error(message: string, error?: Error, metadata?: Record<string, any>) {
     const event: LogEvent = { 
       level: 'error', 
@@ -51,6 +62,29 @@ class Logger {
       }
     };
     console.error(`[ERROR] ${message}`, error, metadata);
+    this.sendToAxiom(event);
+  }
+
+  debug(message: string, metadata?: Record<string, any>) {
+    const event: LogEvent = { level: 'debug', message, metadata };
+    console.debug(`[DEBUG] ${message}`, metadata);
+    this.sendToAxiom(event);
+  }
+
+  async logRequest(data: {
+    method: string;
+    endpoint: string;
+    statusCode: number;
+    duration: number;
+    userId?: string;
+    metadata?: Record<string, any>;
+  }) {
+    const event: LogEvent = {
+      level: 'info',
+      message: `${data.method} ${data.endpoint} - ${data.statusCode}`,
+      ...data,
+    };
+    
     this.sendToAxiom(event);
   }
 
