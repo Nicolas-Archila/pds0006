@@ -33,7 +33,6 @@ jobs:
   build:
     name: Build Docker Image
     runs-on: ubuntu-latest
-    # needs: test  # <-- Comenta también esta línea
     
     steps:
       - name: Checkout code
@@ -98,6 +97,15 @@ jobs:
         run: |
           curl -LO https://github.com/Orange-OpenSource/hurl/releases/download/4.3.0/hurl_4.3.0_amd64.deb
           sudo dpkg -i hurl_4.3.0_amd64.deb
+
+      - name: Create production.env
+        run: |
+          echo "base_url=${{ secrets.BASE_URL }}" > tests/production.env
+
+      - name: Show env file (debug)
+        run: |
+          echo "Content of production.env:"
+          cat tests/production.env
 
       - name: Wait for deployment
         run: sleep 30
