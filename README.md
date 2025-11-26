@@ -8,6 +8,8 @@
 - **Vanessa Alejandra Vasquez Martinez** 
 - **Juan Jose Martinez Lotero** 
 
+-
+
 ## 📋 Descripción del Proyecto
 
 Este proyecto implementa una API RESTful utilizando arquitectura limpia (Clean Architecture) con las siguientes características:
