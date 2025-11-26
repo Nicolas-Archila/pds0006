@@ -21,11 +21,16 @@ export class ElysiaApiAdapter {
 
         this.app = new Elysia()
             .use(openapi({}))
+            .get("/", () => "Hello from PDS006!")
+            .get("/health", () => ({ 
+                status: "ok", 
+                timestamp: new Date().toISOString()
+            }))
             .use(this.controller.routes());
     }
 
     async run() {
         this.app.listen(3000);
-        console.log("El servidor está corriendo en el puerto 3000");
+        console.log("🦊 Server running on http://localhost:3000");
     }
 }

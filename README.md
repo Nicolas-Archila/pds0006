@@ -4,9 +4,9 @@
 
 ## 👥 Integrantes del Equipo
 
-- **[Nombre Integrante 1]** - [Rol/Responsabilidad]
-- **[Nombre Integrante 2]** - [Rol/Responsabilidad]
-- **[Nombre Integrante 3]** - [Rol/Responsabilidad]
+- **Nicolas Hernandez Archila** 
+- **Vanessa Alejandra Vasquez Martinez** 
+- **Juan Jose Martinez Lotero** 
 
 ## 📋 Descripción del Proyecto
 

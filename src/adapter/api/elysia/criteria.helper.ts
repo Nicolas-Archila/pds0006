@@ -7,8 +7,9 @@ import {
 
 import * as z from "zod";
 
+// VALIDAR CLAVES DEL QUERY CON REGEX (Zod 3 soporta esto)
 const QUERY_PARAM_KEYS_SCHEMA = z.union([
-  z.templateLiteral(["filter[", z.string(), "]"]),
+  z.string().regex(/^filter\[[^\]]+\]$/), // ejemplo: filter[name]
   z.literal("sort"),
   z.literal("limit"),
   z.literal("offset"),
