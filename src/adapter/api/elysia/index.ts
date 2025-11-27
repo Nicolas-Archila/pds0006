@@ -1,6 +1,6 @@
 import { ComputerService, DeviceService, MedicalDeviceService } from "@/core/service";
 import { Controller } from "./controller.elysia";
-
+import "dotenv/config";
 import openapi from "@elysiajs/openapi";
 import { Elysia } from "elysia";
 
