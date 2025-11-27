@@ -1,220 +1,21 @@
-# PDS006 - Sistema de Gestión con Arquitectura Limpia
+1. URL DE LA PAGINA 
 
-> Aplicación backend con Bun, Elysia, despliegue en Azure y monitoreo con Axiom
+https://viseapiarchi.orangeglacier-66d09494.brazilsouth.azurecontainerapps.io
 
-## 👥 Integrantes del Equipo
-
-- **Nicolas Hernandez Archila** 
-- **Vanessa Alejandra Vasquez Martinez** 
-- **Juan Jose Martinez Lotero** 
-
--
-
-## 📋 Descripción del Proyecto
+2. DESCRIPCION DEL PROYECTO 
 
 Este proyecto implementa una API RESTful utilizando arquitectura limpia (Clean Architecture) con las siguientes características:
 
-- **Backend Framework**: Elysia.js con Bun runtime
-- **Base de datos**: SQLite con Drizzle ORM
-- **Autenticación**: Better Auth
-- **Contenedorización**: Docker
-- **CI/CD**: GitHub Actions
-- **Despliegue**: Azure Container Apps
-- **Monitoreo**: Axiom para logs y trazabilidad en tiempo real
-- **Testing**: Tests automatizados con Bun y Hurl
+Backend Framework: Elysia.js con Bun runtime
+Base de datos: SQLite con Drizzle ORM
+Autenticación: Better Auth
+Contenedorización: Docker
+CI/CD: GitHub Actions
+Despliegue: Azure Container Apps
+Monitoreo: Axiom para logs y trazabilidad en tiempo real
+Testing: Tests automatizados con Bun y Hurl
 
-### Arquitectura
-
-El proyecto sigue los principios de Clean Architecture:
-
-```
-src/
-├── adapter/           # Capa de adaptadores (API, Repositories)
-│   ├── api/          # Controladores HTTP
-│   ├── plugins/      # Plugins de Elysia (logging, etc.)
-│   └── repository/   # Implementaciones de repositorios
-├── core/
-│   ├── domain/       # Entidades del dominio
-│   ├── dto/          # Data Transfer Objects
-│   ├── repository/   # Interfaces de repositorios
-│   ├── service/      # Lógica de negocio
-│   └── utils/        # Utilidades (logger, etc.)
-└── index.ts          # Punto de entrada
-```
-
-## 📋 Requisitos Previos
-
-- [Bun](https://bun.sh) >= 1.0.0
-- [Docker](https://www.docker.com/) >= 20.10
-- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) (para deployment)
-- Cuenta en [Axiom](https://axiom.co) (para logs)
-
-## 🛠️ Instalación
-
-### 1. Clonar el repositorio
-```bash
-git clone https://github.com/tu-usuario/pds006-frameworks.git
-cd pds006-frameworks
-```
-
-### 2. Instalar dependencias
-```bash
-bun install
-```
-
-### 3. Configurar variables de entorno
-```bash
-cp .env.example .env
-```
-
-Edita `.env` con tus valores:
-```dotenv
-BETTER_AUTH_SECRET=tu-secret-generado
-BETTER_AUTH_URL=http://localhost:3000
-DB_FILE_NAME=db.sqlite
-AXIOM_TOKEN=tu-axiom-token
-AXIOM_DATASET=pds006-logs
-```
-
-### 4. Ejecutar en desarrollo
-```bash
-bun run dev
-```
-
-La aplicación estará disponible en `http://localhost:3000`
-
-## 🐳 Docker
-
-### Desarrollo local
-```bash
-docker-compose up -d
-```
-
-### Build para producción
-```bash
-docker build -t pds006-app .
-docker run -p 3000:3000 --env-file .env pds006-app
-```
-
-## 🧪 Testing
-
-### Tests Unitarios (Bun)
-```bash
-# Ejecutar todos los tests
-bun test
-
-# Tests en modo watch
-bun test:watch
-
-# Type checking
-bun run typecheck
-```
-
-### Tests de API (Hurl)
-```bash
-# Tests locales
-hurl --variables-file tests/local.env --test tests/api.hurl
-
-# Tests en producción
-hurl --variables-file tests/production.env --test tests/api.hurl
-```
-
-Los tests de Hurl se ejecutan automáticamente en el pipeline de CI/CD después de cada deployment exitoso.
-
-## 🚢 Pipeline CI/CD
-
-El proyecto utiliza GitHub Actions para automatizar el proceso de CI/CD:
-
-### Stages del Pipeline
-
-1. **Test** 🧪
-   - Instalación de dependencias con Bun
-   - Ejecución de tests unitarios
-   - Verificación de tipos TypeScript
-
-2. **Build** 🏗️
-   - Construcción de imagen Docker
-   - Push a Azure Container Registry
-   - Optimización con cache de Docker
-
-3. **Deploy** 🚀
-   - Autenticación en Azure
-   - Deployment en Azure Container Apps
-   - Actualización de variables de entorno
-
-4. **API Tests** ✅
-   - Ejecución de tests Hurl contra producción
-   - Verificación de endpoints críticos
-   - Validación de respuestas
-
-### Triggers
-
-- Push a `main`: Deploy completo a producción
-- Push a `develop`: Solo tests
-- Pull Request: Tests y validación
-
-### Secrets Requeridos
-
-```
-AZURE_REGISTRY_NAME
-AZURE_REGISTRY_USERNAME
-AZURE_REGISTRY_PASSWORD
-AZURE_APP_NAME
-AZURE_RESOURCE_GROUP
-AZURE_CREDENTIALS
-BETTER_AUTH_SECRET
-BETTER_AUTH_URL
-AXIOM_TOKEN
-AXIOM_DATASET
-```
-
-## 📊 Monitoreo y Trazabilidad
-
-### Dashboard de Axiom
-
-El proyecto integra Axiom para monitoreo en tiempo real:
-
-- **URL Dashboard**: https://app.axiom.co
-- **Dataset**: `vise-api-logs`
-- **Métricas monitoreadas**:
-  - Requests por endpoint
-  - Tiempos de respuesta
-  - Tasas de error
-  - Logs de errores con stack traces
-  - Actividad de usuarios
-
-### Queries útiles en Axiom
-
-**Requests por endpoint:**
-```
-['vise-api-logs']
-| where level == "info"
-| summarize count() by endpoint
-```
-
-**Errores en las últimas 24 horas:**
-```
-['vise-api-logs']
-| where level == "error"
-| where _time > ago(24h)
-```
-
-**Latencia promedio:**
-```
-['vise-api-logs']
-| where duration > 0
-| summarize avg(duration) by endpoint
-```
-
-### Alertas Configuradas
-
-- Error rate > 5%
-- Latencia promedio > 1000ms
-- Disponibilidad < 99%
-
-## 📁 Estructura del Proyecto
-
-```
+3. ESTRUCTURA DEL PROYECTO 
 .
 ├── .github/
 │   └── workflows/
@@ -239,85 +40,140 @@ El proyecto integra Axiom para monitoreo en tiempo real:
 ├── package.json
 ├── tsconfig.json
 └── README.md
-```
 
-## 🔧 Scripts Disponibles
+4. EXPLICACIÓN DE CARPETAS 
+-> .github/workflows/ = En esta carpeta se almacenan los pipelines de CI/CD que automatizan tareas como ejecutar tests, construir la aplicación y desplegarla. El archivo ci.yml define estos pasos usando GitHub Actions. Aquí suelen usarse dependencias como actions/checkout, setup-node, o scripts de Bun para pruebas.
 
-```bash
-bun run dev          # Desarrollo con hot-reload
-bun start            # Producción
-bun test             # Ejecutar tests
-bun test:watch       # Tests en watch mode
-bun run typecheck    # Verificar tipos TypeScript
-bun run build        # Build del proyecto
-```
+-> src/ = Es la carpeta principal donde se encuentra todo el código fuente del proyecto. Sigue una estructura basada en Clean Architecture para separar responsabilidades.
 
-## 🌐 API Endpoints
+-> src/adapter/ = Esta capa contiene todo lo que conecta el sistema con el “mundo exterior”. Aquí viven los controladores de la API, plugins, y las implementaciones concretas de los repositorios. Esta capa usa dependencias como Elysia.js, middlewares, validadores y Drizzle ORM para la base de datos.
 
-### Health Check
-```bash
-GET /health
-```
+-> src/adapter/api/ = Contiene los controladores y las rutas HTTP expuestas por la API. Aquí se definen endpoints, validaciones de entrada y el manejo de las solicitudes del usuario. Su responsabilidad es recibir una petición, llamar al servicio adecuado y devolver la respuesta correspondiente. Usa dependencias de Elysia.js y sus validadores.
 
-### Devices
-```bash
-GET    /api/devices
-POST   /api/devices
-GET    /api/devices/:id
-PUT    /api/devices/:id
-DELETE /api/devices/:id
-```
+-> src/adapter/plugins/ = Contiene plugins globales del servidor como CORS, autenticación, logging y manejo de errores. Aquí también se integran servicios externos como Axiom para monitoreo o Better Auth para autenticación. Se usa cuando se requiere añadir funciones reutilizables a Elysia.
 
-### Photos
-```bash
-GET    /api/photos
-POST   /api/photos
-GET    /api/photos/:id
-DELETE /api/photos/:id
-```
+-> src/adapter/repository/ = Aquí se implementan los repositorios que interactúan directamente con la base de datos. Estas implementaciones siguen los contratos definidos en core/repository. Usan Drizzle ORM, adaptadores SQLite y cualquier librería relacionada con persistencia. Esta capa permite cambiar la base de datos sin afectar el dominio.
 
-### Medical Devices
-```bash
-GET    /api/medical
-POST   /api/medical
-GET    /api/medical/:id
-PUT    /api/medical/:id
-DELETE /api/medical/:id
-```
+-> src/core/ = Es el núcleo de la lógica del sistema. Aquí no se importa nada que pertenezca a frameworks externos ni a Elysia. Contiene entidades, reglas de negocio, contratos e interfaces de repositorio.
 
-### Computer Requests
-```bash
-GET    /api/computer
-POST   /api/computer
-GET    /api/computer/:id
-PUT    /api/computer/:id
-DELETE /api/computer/:id
-```
+-> src/core/domain/ = Contiene las entidades del dominio, es decir, las representaciones de los objetos del negocio. Aquí se encuentran los modelos y estructuras que definen qué es un usuario, un recurso, un registro, etc. Esta capa debe mantenerse libre de dependencias externas.
 
-## 🔐 Seguridad
+-> src/core/dto/ = Aquí se encuentran los DTO (Data Transfer Objects), que definen la estructura de los datos que se envían o reciben. Sirven para mantener una separación clara entre datos internos del dominio y datos expuestos públicamente. Usan tipos de TypeScript y pueden incluir validaciones.
 
-- Autenticación JWT con Better Auth
-- Secretos manejados con variables de entorno
-- Usuario no-root en Docker
-- HTTPS en producción (Azure)
-- Rate limiting configurado
+-> src/core/repository/ = Contiene las interfaces o contratos de los repositorios. Estas definen qué métodos deben ofrecer las implementaciones de persistencia, pero no incluyen detalles de cómo funcionan. Gracias a esto, se puede cambiar de SQLite a otra base sin afectar la lógica del negocio.
 
-## 📝 Licencia
+-> src/core/service/ = En esta carpeta está la lógica de negocio y los casos de uso del sistema. Aquí se toman decisiones, se aplican reglas y se coordinan operaciones entre entidades y repositorios. Los servicios solo dependen de las interfaces de core/repository y los DTO del dominio, no de frameworks.
 
-MIT
+->src/index.ts = Es el punto de entrada de la aplicación. Aquí se inicializa Elysia, se cargan los plugins, se registran las rutas y se levanta el servidor. También se pueden iniciar servicios globales como loggers o conexiones.
 
-## 👥 Contribuir
+-> Dockerfile = Define cómo construir la imagen de Docker para ejecutar el proyecto en producción. Contiene instrucciones de instalación, copia del código y ejecución de la aplicación usando Bun.
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+-> docker-compose.yml = Permite levantar la aplicación en desarrollo, junto con otros servicios necesarios (como la base de datos o herramientas externas). Facilita la orquestación local con Docker
 
-## 📞 Soporte
+-> .dockerignore =  Lista los archivos que Docker debe ignorar al construir la imagen, para reducir peso y evitar incluir archivos innecesarios.
 
-Para soporte, abre un issue en GitHub o contacta al equipo de desarrollo.
+-> .env / .env.example = .env contiene las variables de entorno reales del proyecto (que no deben subirse al repositorio).
+.env.example es una plantilla que muestra qué variables son necesarias para ejecutar la aplicación.
 
----
+-> package.json = Contiene las dependencias del proyecto, scripts de ejecución y metadatos. Incluye librerías como Elysia, Drizzle ORM, Better Auth, herramientas de test y configuraciones del entorno.
 
-Hecho con ❤️ por el equipo PDS006
+-> tsconfig.json = Archivo de configuración de TypeScript que define reglas de compilación, paths, modo estricto y otras propiedades importantes del lenguaje.
+
+-> README.md = Documento principal de la información del proyecto: descripción, instrucciones de instalación, ejecución, despliegue y arquitectura.
+
+5. CONFIGURACIÓN Y ENTORNO 
+
+La configuración principal esta en .env, estas son las variables típicas del proyecto:
+
+
+NODE_ENV=production
+PORT=3000
+MEDIA_PORT=8090
+
+
+AXIOM_API_TOKEN=xaat-c8b3b6fd-dea8-4b34-88bd-069fb2db453a
+AXIOM_DATASET=pds006
+
+BETTER_AUTH_SECRET=T4xhMTvftJ4/x7l6/HRm92iDxzB3MBhN4MkLLwE/xMI=
+BETTER_AUTH_URL=http://localhost:3000
+DB_FILE_NAME=db.sqlite
+
+La base de datos usada es **SQLite**, almacenada localmente.  
+Drizzle ORM gestiona la creación automática de tablas, migraciones y tipado.
+
+
+6. COMO EJECUTAR EL PROYECTO
+
+1. Clona el repositorio
+git clone https://github.com/Nicolas-Archila/pds0006.git
+
+2. Accede al proyecto
+cd pds0006
+
+3. Instala dependencias 
+bun install 
+
+4. configurar variables de entorno
+cp .env.example .env
+edita .env con tus valores: 
+
+BETTER_AUTH_SECRET=tu-secret-generado
+BETTER_AUTH_URL=http://localhost:3000
+DB_FILE_NAME=db.sqlite
+AXIOM_TOKEN=tu-axiom-token
+AXIOM_DATASET=pds006-logs
+
+5. Levantar el servidor en modo desarrollo 
+bun run dev 
+
+7. ENDPOINTS O PETICIONES DISPONIBLES 
+Health Check
+
+Método	Ruta	     ¿Qué hace?
+GET	/health	    Verifica que la API esté funcionando. Devuelve un mensaje de “OK”.
+
+Devices
+Método	Ruta	                 ¿Qué hace?
+GET	/api/devices	        Obtiene la lista de todos los dispositivos registrados.
+POST	/api/devices	        Crea un nuevo dispositivo en la base de datos.
+GET	/api/devices/:id	Obtiene un dispositivo específico usando su ID.
+PUT	/api/devices/:id	Actualiza los datos de un dispositivo existente.
+DELETE	/api/devices/:id	Elimina un dispositivo por su ID.
+
+Photos
+Método	Ruta	                   ¿Qué hace?
+GET	/api/photos	   Lista todas las fotos almacenadas.
+POST	/api/photos	   Sube una nueva foto al sistema.
+GET	/api/photos/:id	   Obtiene una foto específica por su ID.
+DELETE	/api/photos/:id	   Elimina una foto del sistema.
+
+Medical Devices
+Método	Ruta	                 ¿Qué hace?
+GET	/api/medical	        Obtiene todos los dispositivos médicos.
+POST	/api/medical	        Registra un nuevo dispositivo médico.
+GET	/api/medical/:id 	Obtiene un dispositivo médico específico por ID.
+PUT	/api/medical/:id	Actualiza los datos de un dispositivo médico.
+DELETE	/api/medical/:id	Elimina un dispositivo médico por su ID.
+
+Computer Requests
+Método	Ruta	                ¿Qué hace?
+GET	/api/computer	        Obtiene todas las solicitudes de soporte de computadoras.
+POST	/api/computer	        Crea una nueva solicitud de soporte técnico.
+GET	/api/computer/:id	Obtiene una solicitud específica por ID.
+PUT	/api/computer/:id	Actualiza la información de una solicitud.
+DELETE	/api/computer/:id	Elimina una solicitud de soporte por ID.
+
+8. ARQUITECTURA DEL PROYECTO 
+
+src/
+├── adapter/           # Capa de adaptadores (API, Repositories)
+│   ├── api/          # Controladores HTTP
+│   ├── plugins/      # Plugins de Elysia (logging, etc.)
+│   └── repository/   # Implementaciones de repositorios
+├── core/
+│   ├── domain/       # Entidades del dominio
+│   ├── dto/          # Data Transfer Objects
+│   ├── repository/   # Interfaces de repositorios
+│   ├── service/      # Lógica de negocio
+│   └── utils/        # Utilidades (logger, etc.)
+└── index.ts          # Punto de entrada
